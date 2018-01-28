@@ -1,0 +1,20 @@
+# Docker Compose
+# https://docs.docker.com/compose/
+#
+# Usage: test up
+
+version: '3'
+services:
+
+  web:
+    ports:
+      - "80:8000"
+    environment: &environment
+      - ENVIRONMENT=local
+    build:
+      context: .
+      dockerfile: provision/docker/web-test/Dockerfile
+    volumes:
+      - .:/usr/src
+    env_file:
+      - .env
