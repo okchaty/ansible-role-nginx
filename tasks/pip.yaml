@@ -1,8 +1,9 @@
 ---
 # task for hadenlabs.nginx
 
-- name: Install packages via pip ntp
+- name: Install packages via pip nginx
   become: true
   pip: name="{{ item.name }}" version="{{ item.version }}"
-  when: _ntp_pip_packages is defined
-  with_items: "{{ _ntp_pip_packges | default({}) }}"
+  when:
+    - _nginx_pip_packages is defined
+  with_items: "{{ _nginx_pip_packages | default({}) }}"

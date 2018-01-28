@@ -14,6 +14,7 @@ _nginx_package_name: "nginx"
 _nginx_packages:
   - software-properties-common
   - python-software-properties
+  - wget
 
 # Use the official Nginx PPA for Ubuntu, and the version to use if so.
 _nginx_ppa_use: true

@@ -1,7 +1,7 @@
 ---
 # vars file for hadenlabs.nginx (Ubuntu specific)
 
-# _ntp_pip_packges:
+# _nginx_pip_packges:
 #   name: pip
 #   version:
 
