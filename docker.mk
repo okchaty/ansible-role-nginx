@@ -8,7 +8,7 @@ docker: docker.help
 docker.help:
 	@echo '    Docker:'
 	@echo ''
-	@echo '        docker.build         build all services with docker-compose optional args=(--pull|...)'
+	@echo '        docker.build         build all or one example: make docker.build service={{services}}  args=(--pull|...)'
 	@echo '        docker.down          down services docker-compose'
 	@echo '        docker.exec          exec command in container by {{services}} {{command}}'
 	@echo '        docker.ssh           connect by ssh to container'
@@ -21,7 +21,7 @@ docker.help:
 	@echo ''
 
 docker.run: clean
-	@if [ "${env}" == "" ]; then \
+	@if [ -z "${env}" ]; then \
 		$(docker-compose) -f "${PATH_DOCKER_COMPOSE}"/dev.yml run --rm ${service} bash; \
 	else \
 		$(docker-compose) -f "${PATH_DOCKER_COMPOSE}"/"${env}".yml run --rm ${service} bash; \
@@ -29,45 +29,49 @@ docker.run: clean
 
 docker.restart: clean
 	@if [ "${env}" == "" ]; then \
-		$(docker-compose) -f "${PATH_DOCKER_COMPOSE}"/dev.yml restart; \
+		$(docker-compose) -f "${PATH_DOCKER_COMPOSE}"/dev.yml --project-name "${PROJECT}" restart; \
 	else \
-		$(docker-compose) -f "${PATH_DOCKER_COMPOSE}"/"${env}".yml restart; \
+		$(docker-compose) -f "${PATH_DOCKER_COMPOSE}"/"${env}".yml --project-name "${PROJECT}-${env}" restart; \
 	fi
 
 docker.build: clean
-	@echo $(MESSAGE) "Building environment: ${env}"
-	@if [ "${env}" == "" ]; then \
+	@echo $(MESSAGE) "Building environment: ${env} ${service}" 
+	@if [ -z "${env}" ] && [ -z "${service}" ]; then \
 		docker volume create "${PROJECT}"-db; \
 		docker volume create "${PROJECT}"-broker; \
-		$(docker-compose) -f "${PATH_DOCKER_COMPOSE}"/dev.yml build ${args}; \
-	else \
-		docker volume create "${PROJECT}-${env}"-db; \
-		docker volume create "${PROJECT}-${env}"-broker; \
-		$(docker-compose) -f "${PATH_DOCKER_COMPOSE}"/"${env}".yml build ${args}; \
+		$(docker-compose) -f "${PATH_DOCKER_COMPOSE}"/dev.yml --project-name "${PROJECT}" build ${args}; \
+	elif [ -z "${env}" ] && [ -n "${service}" ]; then \
+		docker volume create "${PROJECT}"-db; \
+		docker volume create "${PROJECT}"-broker; \
+		$(docker-compose) -f "${PATH_DOCKER_COMPOSE}"/dev.yml --project-name "${PROJECT}" build ${service} ${args}; \
+	elif [ -n "${env}" ] && [ -z "${service}" ]; then \
+		docker volume create "${PROJECT}"-"${env}"-db; \
+		docker volume create "${PROJECT}"-"${env}"-broker; \
+		$(docker-compose) -f "${PATH_DOCKER_COMPOSE}"/"${env}".yml --project-name "${PROJECT}-${env}" build ${args}; \
 	fi
 
 docker.down: clean
 	@echo $(MESSAGE) "Down Services Environment: ${env}"
 	@if [ "${env}" == "" ]; then \
-		$(docker-compose) -f "${PATH_DOCKER_COMPOSE}"/dev.yml -p "${PROJECT}" down --remove-orphans; \
+		$(docker-compose) -f "${PATH_DOCKER_COMPOSE}"/dev.yml --project-name "${PROJECT}" down --remove-orphans; \
 	else \
-		$(docker-compose) -f "${PATH_DOCKER_COMPOSE}"/"${env}".yml down --remove-orphans; \
+		$(docker-compose) -f "${PATH_DOCKER_COMPOSE}"/"${env}".yml --project-name "${PROJECT}-${env}" down --remove-orphans; \
 	fi
 
 docker.exec: clean
 	@echo $(MESSAGE) "Exec Services Environment: ${env}"
 	@if [ -z "${env}" ]; then \
-		$(docker-compose) -f "${PATH_DOCKER_COMPOSE}"/dev.yml -p "${PROJECT}" exec ${service} ${command} ; \
+		$(docker-compose) -f "${PATH_DOCKER_COMPOSE}"/dev.yml --project-name "${PROJECT}" exec ${service} ${command} ; \
 	else \
-		$(docker-compose) -f "${PATH_DOCKER_COMPOSE}"/"${env}".yml -p "${PROJECT}" exec ${service} ${command} ; \
+		$(docker-compose) -f "${PATH_DOCKER_COMPOSE}"/"${env}".yml --project-name "${PROJECT}-${env}" exec ${service} ${command} ; \
 	fi
 
 docker.stop: clean
 	@echo $(MESSAGE) "Stop Services: ${env}"
 	@if [ "${env}" == "" ]; then \
-		$(docker-compose) -f "${PATH_DOCKER_COMPOSE}"/dev.yml -p "${PROJECT}" stop; \
+		$(docker-compose) -f "${PATH_DOCKER_COMPOSE}"/dev.yml --project-name "${PROJECT}" stop; \
 	else \
-		$(docker-compose) -f "${PATH_DOCKER_COMPOSE}"/"${env}".yml stop; \
+		$(docker-compose) -f "${PATH_DOCKER_COMPOSE}"/"${env}".yml --project-name "${PROJECT}-${env}" stop; \
 	fi
 
 docker.verify_network: ## Verify network
@@ -78,15 +82,15 @@ docker.verify_network: ## Verify network
 docker.up: clean
 	@echo $(MESSAGE) "Up Services: ${env}"
 	@if [ "${env}" == "" ]; then \
-		$(docker-compose) -f "${PATH_DOCKER_COMPOSE}"/dev.yml -p "${PROJECT}" up --remove-orphans; \
+		$(docker-compose) -f "${PATH_DOCKER_COMPOSE}"/dev.yml --project-name "${PROJECT}" up --remove-orphans; \
 	else \
-		$(docker-compose) -f "${PATH_DOCKER_COMPOSE}"/"${env}".yml up --remove-orphans; \
+		$(docker-compose) -f "${PATH_DOCKER_COMPOSE}"/"${env}".yml --project-name "${PROJECT}-${env}" up --remove-orphans; \
 	fi
 
 docker.list: clean
 	@echo $(MESSAGE) "List Services: ${env}"
 	@if [ "${env}" == "" ]; then \
-		$(docker-compose) -f "${PATH_DOCKER_COMPOSE}"/dev.yml -p "${PROJECT}" ps; \
+		$(docker-compose) -f "${PATH_DOCKER_COMPOSE}"/dev.yml --project-name "${PROJECT}" ps; \
 	else \
-		$(docker-compose) -f "${PATH_DOCKER_COMPOSE}"/"${env}".yml ps; \
+		$(docker-compose) -f "${PATH_DOCKER_COMPOSE}"/"${env}".yml --project-name "${PROJECT}-${env}" ps; \
 	fi
