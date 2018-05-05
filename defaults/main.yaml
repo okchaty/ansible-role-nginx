@@ -1,4 +1,5 @@
 ---
+nginx_only_deploy: no
 # active conf nginx
 nginx_gzip: true
 
@@ -42,7 +43,6 @@ nginx_extra_http_options: ""
 #      proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
 #      proxy_set_header   Host $http_host;
 
-nginx_remove_default_vhost: false
 nginx_vhosts_filename: "default.conf"
 nginx_vhosts: []
 # Example vhost below, showing all available options:
