@@ -1,13 +1,6 @@
 ---
 # task for hadenlabs.nginx
 
-- name: Remove default nginx vhost config file (if configured).
-  file:
-    path: "{{ _nginx_default_vhost_path }}"
-    state: absent
-  when: nginx_remove_default_vhost|default(false)|bool == true
-  notify: restart nginx
-
 - name: Ensure nginx_vhost_path exists.
   file:
     path: "{{ _nginx_vhost_path }}"
