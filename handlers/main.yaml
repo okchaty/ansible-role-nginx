@@ -8,8 +8,3 @@
 
 - name: reload nginx
   service: name=nginx state=reloaded
-
-- name: install nginx
-  package:
-    name: "{{ _nginx_package_name }}"
-    state: latest
