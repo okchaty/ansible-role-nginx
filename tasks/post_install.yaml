@@ -1,13 +1,6 @@
 ---
 # task for hadenlabs.nginx
 
-- name: Remove default nginx vhost config file (if configured).
-  file:
-    path: "{{ _nginx_default_vhost_path }}"
-    state: absent
-  when: nginx_remove_default_vhost|default(false)|bool == true
-  notify: restart nginx
-
 - name: Ensure nginx_vhost_path exists.
   file:
     path: "{{ _nginx_vhost_path }}"
@@ -16,7 +9,7 @@
 
 - name: Add managed vhost config file (if any vhosts are configured).
   template:
-    src: vhosts.conf.j2
+    src: default.conf.j2
     dest: "{{ _nginx_vhost_path }}/{{ nginx_vhosts_filename }}"
     mode: 0644
   when: nginx_vhosts|length > 0

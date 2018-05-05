@@ -8,6 +8,5 @@ services:
   # web server.
   web:
     restart: always
-    image: python:3.6.1
     environment: &environment
       - ENVIRONMENT=local
