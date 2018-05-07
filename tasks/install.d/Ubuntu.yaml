@@ -9,5 +9,3 @@
     update_cache: true
   register: nginx_ppa_added
   when: _nginx_ppa_use
-  notify:
-    - install nginx
