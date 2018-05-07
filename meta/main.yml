@@ -4,7 +4,7 @@ galaxy_info:
   author: Luis Mayta
   description: Ansible role Nginx
   company: Hadenlabs
-  version: 1.1.0
+  version: 1.1.1
   license: Mit
   min_ansible_version: 2.0
   platforms:
