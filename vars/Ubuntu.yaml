@@ -23,7 +23,7 @@ _nginx_ppa_use: true
 _nginx_ppa_version: stable
 
 _nginx_templates:
-  - name: 'etc/nginx/conf.d/gzip.conf.j2'
+  - template: 'etc/nginx/conf.d/gzip.conf.j2'
     path: '{{ _nginx_conf_path }}/gzip.conf'
-  - name: 'etc/nginx/mime.types.j2'
+  - template: 'etc/nginx/mime.types.j2'
     path: '{{ _nginx_mime_file_path }}'

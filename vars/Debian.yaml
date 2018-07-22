@@ -14,9 +14,9 @@ _nginx_packages:
   - python-software-properties
 
 _nginx_templates:
-  - name: 'etc/nginx/conf.d/gzip.conf.j2'
+  - template: 'etc/nginx/conf.d/gzip.conf.j2'
     path: '{{ _nginx_conf_path }}/gzip.conf'
-  - name: 'etc/nginx/mime.types.j2'
+  - template: 'etc/nginx/mime.types.j2'
     path: '{{ _nginx_mime_file_path }}'
 
 # Use the official Nginx PPA for Ubuntu, and the version to use if so.
