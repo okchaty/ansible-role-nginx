@@ -1,9 +1,10 @@
 ---
 # task file for hadenlabs.nginx
 
-- name: enabled gzip
+- name: copy templates
   template:
-    src: "etc/nginx/conf.d/gzip.conf.j2"
-    dest: "{{ _nginx_conf_path }}/gzip.conf"
+    src: "{{ item.template }}"
+    dest: "{{ item.path  }}"
+  with_items: "{{ _nginx_templates | default({}) }}"
   when:
-    - nginx_gzip is defined and nginx_gzip|bool
+    - _nginx_templates is defined
