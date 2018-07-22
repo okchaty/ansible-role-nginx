@@ -8,6 +8,9 @@ This file uses change log convention from `keep a CHANGELOG`_.
 `Unreleased`_
 *************
 
+`1.2.0`_ - 2018-07-22
+**********************
+
 `1.1.1`_ - 2018-05-07
 **********************
 
@@ -21,7 +24,8 @@ This file uses change log convention from `keep a CHANGELOG`_.
 **********************
 
 
-.. _`Unreleased`: https://github.com/hadenlabs/ansible-role-nginx/compare/1.1.1...HEAD
+.. _`Unreleased`: https://github.com/hadenlabs/ansible-role-nginx/compare/1.2.0...HEAD
+.. _1.2.0: https://github.com/hadenlabs/ansible-role-nginx/compare/1.1.1...1.2.0
 .. _1.1.1: https://github.com/hadenlabs/ansible-role-nginx/compare/1.1.0...1.1.1
 .. _1.1.0: https://github.com/hadenlabs/ansible-role-nginx/compare/1.0.1...1.1.0
 .. _1.0.1: https://github.com/hadenlabs/ansible-role-nginx/compare/1.0.0...1.0.1

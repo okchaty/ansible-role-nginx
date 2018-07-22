@@ -9,9 +9,6 @@ OS := $(shell uname)
 .DEFAULT_GOAL := help
 
 PROJECT := ansible-role-nginx
-PROJECT_DEV := $(PROJECT)_dev
-PROJECT_STAGE := $(PROJECT)_stage
-PROJECT_TEST := $(PROJECT)_test
 PROJECT_PORT := 8000
 
 PYTHON_VERSION=3.6.1
@@ -62,7 +59,7 @@ endif
 setup: clean
 	$(pip_install) "${REQUIREMENTS_DIR}/setup.txt"
 	pre-commit install
-	cp -rf extras/git/hooks/prepare-commit-msg .git/hooks/
+	cp -rf .hooks/prepare-commit-msg .git/hooks/
 	@if [ ! -e ".env" ]; then \
 		cp -rf .env-sample .env;\
 	fi
