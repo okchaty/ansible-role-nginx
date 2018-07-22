@@ -3,7 +3,7 @@ Ansible Role Nginx
 
 |Build Status| |Ansible Galaxy| |GitHub issues| |Average time to resolve an issue| |Percentage of issues still open| |GitHub license|
 
-:Version: 1.1.1
+:Version: 1.2.0
 :Web: https://github.com/hadenlabs/ansible-role-nginx
 :Download: http://github.com/hadenlabs/ansible-role-nginx
 :Source: http://github.com/hadenlabs/ansible-role-nginx
